@@ -468,13 +468,10 @@ func DecodeChallengeStatusEvent(log *types.Log) (*bindings.DataAvailabilityChall
 
 // DecodeResolvedInput decodes the preimage bytes from the tx input data.
 func DecodeResolvedInput(data []byte) ([]byte, error) {
-	dacAbi, err := bindings.DataAvailabilityChallengeMetaData.GetAbi()
-	if err != nil {
-		return nil, err
-	}
+	dacAbi, _ := bindings.DataAvailabilityChallengeMetaData.GetAbi()
 
 	args := make(map[string]interface{})
-	err = dacAbi.Methods["resolve"].Inputs.UnpackIntoMap(args, data[4:])
+	err := dacAbi.Methods["resolve"].Inputs.UnpackIntoMap(args, data[4:])
 	if err != nil {
 		return nil, err
 	}
