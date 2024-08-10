@@ -15,6 +15,7 @@ import { L1Block } from "src/L2/L1Block.sol";
 import { GasPriceOracle } from "src/L2/GasPriceOracle.sol";
 import { L2StandardBridge } from "src/L2/L2StandardBridge.sol";
 import { L2ERC721Bridge } from "src/L2/L2ERC721Bridge.sol";
+import { Stream } from "src/L2/Stream.sol";
 import { SequencerFeeVault } from "src/L2/SequencerFeeVault.sol";
 import { OptimismMintableERC20Factory } from "src/universal/OptimismMintableERC20Factory.sol";
 import { OptimismMintableERC721Factory } from "src/universal/OptimismMintableERC721Factory.sol";
@@ -245,6 +246,7 @@ contract L2Genesis is Deployer {
         setProxyAdmin(); // 18
         setBaseFeeVault(); // 19
         setL1FeeVault(); // 1A
+        setStream(); // 1B
         // 1B,1C,1D,1E,1F: not used.
         setSchemaRegistry(); // 20
         setEAS(); // 21
@@ -489,6 +491,12 @@ contract L2Genesis is Deployer {
     function setETHLiquidity() internal {
         _setImplementationCode(Predeploys.ETH_LIQUIDITY);
         vm.deal(Predeploys.ETH_LIQUIDITY, type(uint248).max);
+    }
+
+    /// @notice This predeploy is following the safety invariant #2.
+    ///         This contract has no initializer.
+    function setStream() internal {
+        _setImplementationCode(Predeploys.STREAM);
     }
 
     /// @notice This predeploy is following the safety invariant #1.
