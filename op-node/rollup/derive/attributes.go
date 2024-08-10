@@ -121,9 +121,15 @@ func (ba *FetchingAttributesBuilder) PreparePayloadAttributes(ctx context.Contex
 		return nil, NewCriticalError(fmt.Errorf("failed to create l1InfoTx: %w", err))
 	}
 
-	txs := make([]hexutil.Bytes, 0, 1+len(depositTxs)+len(upgradeTxs))
+	tickTx, err := StreamDepositBytes(seqNumber, ba.rollupCfg.Genesis.SystemConfig.StreamingGasLimit, l1Info)
+	if err != nil {
+		return nil, NewCriticalError(fmt.Errorf("failed to create tickTx: %w", err))
+	}
+
+	txs := make([]hexutil.Bytes, 0, 2+len(depositTxs)+len(upgradeTxs))
 	txs = append(txs, l1InfoTx)
 	txs = append(txs, depositTxs...)
+	txs = append(txs, tickTx)
 	txs = append(txs, upgradeTxs...)
 
 	var withdrawals *types.Withdrawals

@@ -93,6 +93,9 @@ type L2GenesisBlockDeployConfig struct {
 	L2GenesisBlockGasUsed       hexutil.Uint64 `json:"l2GenesisBlockGasUsed"`
 	L2GenesisBlockParentHash    common.Hash    `json:"l2GenesisBlockParentHash"`
 	L2GenesisBlockBaseFeePerGas *hexutil.Big   `json:"l2GenesisBlockBaseFeePerGas"`
+	L2GenesisStreamingGasLimit  hexutil.Uint64 `json:"l2GenesisStreamingGasLimit"`
+	StreamingOwner              common.Address `json:"streamingOwner"`
+	StreamingTarget             common.Address `json:"streamingTarget"`
 	// L2GenesisBlockExtraData is configurable extradata. Will default to []byte("BEDROCK") if left unspecified.
 	L2GenesisBlockExtraData []byte `json:"l2GenesisBlockExtraData"`
 	// Note that there is no L2 genesis timestamp:
@@ -880,10 +883,11 @@ func (d *DeployConfig) RollupConfig(l1StartBlock *types.Block, l2GenesisBlockHas
 			},
 			L2Time: l1StartBlock.Time(),
 			SystemConfig: eth.SystemConfig{
-				BatcherAddr: d.BatchSenderAddress,
-				Overhead:    eth.Bytes32(common.BigToHash(new(big.Int).SetUint64(d.GasPriceOracleOverhead))),
-				Scalar:      eth.Bytes32(d.FeeScalar()),
-				GasLimit:    uint64(d.L2GenesisBlockGasLimit),
+				BatcherAddr:       d.BatchSenderAddress,
+				Overhead:          eth.Bytes32(common.BigToHash(new(big.Int).SetUint64(d.GasPriceOracleOverhead))),
+				Scalar:            eth.Bytes32(d.FeeScalar()),
+				GasLimit:          uint64(d.L2GenesisBlockGasLimit),
+				StreamingGasLimit: uint64(d.L2GenesisStreamingGasLimit),
 			},
 		},
 		BlockTime:              d.L2BlockTime,

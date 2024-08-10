@@ -53,6 +53,11 @@ library Predeploys {
     /// @notice Address of the L1Block predeploy.
     address internal constant L1_BLOCK_ATTRIBUTES = 0x4200000000000000000000000000000000000015;
 
+    /**
+     * @notice Address of the Stream predeploy.
+     */
+    address internal constant STREAM = 0x42000000000000000000000000000000000000A0;
+
     /// @notice Address of the L2ToL1MessagePasser predeploy.
     address internal constant L2_TO_L1_MESSAGE_PASSER = 0x4200000000000000000000000000000000000016;
 

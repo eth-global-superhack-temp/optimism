@@ -391,6 +391,7 @@ type SystemConfig struct {
 	// GasLimit identifies the L2 block gas limit
 	GasLimit uint64 `json:"gasLimit"`
 	// More fields can be added for future SystemConfig versions.
+	StreamingGasLimit uint64 `json:"streamingGasLimit"`
 }
 
 // The Ecotone upgrade introduces a versioned L1 scalar format

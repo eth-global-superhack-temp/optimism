@@ -16,6 +16,7 @@ const (
 	L1BlockNumber                 = "0x4200000000000000000000000000000000000013"
 	GasPriceOracle                = "0x420000000000000000000000000000000000000F"
 	L1Block                       = "0x4200000000000000000000000000000000000015"
+	Streaming                     = "0x42000000000000000000000000000000000000A0"
 	GovernanceToken               = "0x4200000000000000000000000000000000000042"
 	LegacyMessagePasser           = "0x4200000000000000000000000000000000000000"
 	L2ERC721Bridge                = "0x4200000000000000000000000000000000000014"
@@ -52,6 +53,7 @@ var (
 	L1BlockNumberAddr                 = common.HexToAddress(L1BlockNumber)
 	GasPriceOracleAddr                = common.HexToAddress(GasPriceOracle)
 	L1BlockAddr                       = common.HexToAddress(L1Block)
+	StreamingAddr                     = common.HexToAddress(Streaming)
 	GovernanceTokenAddr               = common.HexToAddress(GovernanceToken)
 	LegacyMessagePasserAddr           = common.HexToAddress(LegacyMessagePasser)
 	L2ERC721BridgeAddr                = common.HexToAddress(L2ERC721Bridge)
@@ -91,6 +93,7 @@ func init() {
 	Predeploys["L1BlockNumber"] = &Predeploy{Address: L1BlockNumberAddr}
 	Predeploys["GasPriceOracle"] = &Predeploy{Address: GasPriceOracleAddr}
 	Predeploys["L1Block"] = &Predeploy{Address: L1BlockAddr}
+	Predeploys["Streaming"] = &Predeploy{Address: StreamingAddr}
 	Predeploys["GovernanceToken"] = &Predeploy{
 		Address:       GovernanceTokenAddr,
 		ProxyDisabled: true,

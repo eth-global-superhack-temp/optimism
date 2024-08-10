@@ -78,6 +78,9 @@ config=$(cat << EOL
   "governanceTokenOwner": "$GS_ADMIN_ADDRESS",
 
   "l2GenesisBlockGasLimit": "0x1c9c380",
+  "l2GenesisStreamingGasLimit": "0x3938700",
+  "streamingOwner": "$GS_ADMIN_ADDRESS",
+  "streamingTarget": "0x0000000000000000000000000000000000000000",
   "l2GenesisBlockBaseFeePerGas": "0x3b9aca00",
   "l2GenesisRegolithTimeOffset": "0x0",
 
@@ -104,7 +107,21 @@ config=$(cat << EOL
   "faultGameWithdrawalDelay": 604800,
 
   "preimageOracleMinProposalSize": 1800000,
-  "preimageOracleChallengePeriod": 86400
+  "preimageOracleChallengePeriod": 86400,
+  "proofMaturityDelaySeconds": 604800,
+  "disputeGameFinalityDelaySeconds": 302400,
+  "respectedGameType": 0,
+  "useFaultProofs": true,
+  "usePlasma": true,
+  "daCommitmentType": "GenericCommitment",
+  "daChallengeWindow": 160,
+  "daResolveWindow": 160,
+  "daBondSize": 1000000,
+  "daResolverRefundPercentage": 0,
+  "cliqueSignerAddress": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "l1UseClique": true,
+  "gasPriceOracleBaseFeeScalar": 1368,
+  "gasPriceOracleBlobBaseFeeScalar": 810949
 }
 EOL
 )
