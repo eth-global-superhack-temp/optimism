@@ -3,6 +3,7 @@ package derive
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
@@ -121,10 +122,12 @@ func (ba *FetchingAttributesBuilder) PreparePayloadAttributes(ctx context.Contex
 		return nil, NewCriticalError(fmt.Errorf("failed to create l1InfoTx: %w", err))
 	}
 
-	tickTx, err := StreamDepositBytes(seqNumber, ba.rollupCfg.Genesis.SystemConfig.StreamingGasLimit, l1Info)
+	tickTx, err := StreamDepositBytes(ba.rollupCfg, nextL2Time, seqNumber, ba.rollupCfg.Genesis.SystemConfig.StreamingGasLimit, l1Info)
 	if err != nil {
 		return nil, NewCriticalError(fmt.Errorf("failed to create tickTx: %w", err))
 	}
+	log.Println("Creating stream deposit transaction...")
+	log.Println(tickTx)
 
 	txs := make([]hexutil.Bytes, 0, 2+len(depositTxs)+len(upgradeTxs))
 	txs = append(txs, l1InfoTx)

@@ -496,7 +496,14 @@ contract L2Genesis is Deployer {
     /// @notice This predeploy is following the safety invariant #2.
     ///         This contract has no initializer.
     function setStream() internal {
-        _setImplementationCode(Predeploys.STREAM);
+        address impl = _setImplementationCode(Predeploys.STREAM);
+
+        bytes32 _ownerSlot = bytes32(0);
+
+        // there is no initialize() function, so we just set the storage manually.
+        vm.store(Predeploys.STREAM, _ownerSlot, bytes32(uint256(uint160(cfg.streamingOwner()))));
+        // update the proxy to not be uninitialized (although not standard initialize pattern)
+        vm.store(impl, _ownerSlot, bytes32(uint256(uint160(cfg.streamingOwner()))));
     }
 
     /// @notice This predeploy is following the safety invariant #1.

@@ -77,8 +77,8 @@ config=$(cat << EOL
   "governanceTokenName": "Optimism",
   "governanceTokenOwner": "$GS_ADMIN_ADDRESS",
 
-  "l2GenesisBlockGasLimit": "0x11E1A300",
-  "l2GenesisStreamingGasLimit": "0x3938700",
+  "l2GenesisBlockGasLimit": "0x1c9c380",
+  "l2GenesisStreamingGasLimit": "0x2DC6C0",
   "streamingOwner": "$GS_ADMIN_ADDRESS",
   "streamingTarget": "0x0000000000000000000000000000000000000000",
   "l2GenesisBlockBaseFeePerGas": "0x3b9aca00",

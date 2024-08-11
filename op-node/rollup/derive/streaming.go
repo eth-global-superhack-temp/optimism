@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/ethereum-optimism/optimism/op-node/rollup"
 	"github.com/ethereum-optimism/optimism/op-service/eth"
 	"github.com/ethereum-optimism/optimism/op-service/predeploys"
 	"github.com/ethereum/go-ethereum/common"
@@ -26,7 +27,7 @@ func MarshalBinary() ([]byte, error) {
 }
 
 // StreamDeposit creates a Stream deposit transaction.
-func StreamDeposit(seqNumber uint64, streamGasLimit uint64, block eth.BlockInfo) (*types.DepositTx, error) {
+func StreamDeposit(rollupCfg *rollup.Config, l2BlockTime uint64, seqNumber uint64, streamGasLimit uint64, block eth.BlockInfo) (*types.DepositTx, error) {
 	data, err := MarshalBinary()
 	if err != nil {
 		return nil, err
@@ -35,21 +36,26 @@ func StreamDeposit(seqNumber uint64, streamGasLimit uint64, block eth.BlockInfo)
 		L1BlockHash: block.Hash(),
 		SeqNumber:   seqNumber,
 	}
-	return &types.DepositTx{
+	out := &types.DepositTx{
 		SourceHash:          source.SourceHash(),
 		From:                StreamDepositerAddress,
 		To:                  &StreamAddress,
 		Mint:                nil,
 		Value:               big.NewInt(0),
-		Gas:                 streamGasLimit,
+		Gas:                 150_000_000,
 		IsSystemTransaction: true,
 		Data:                data,
-	}, nil
+	}
+	if rollupCfg.IsRegolith(l2BlockTime) {
+		out.IsSystemTransaction = false
+		out.Gas = RegolithSystemTxGas
+	}
+	return out, nil
 }
 
 // StreamDepositBytes returns a serialized stream transaction.
-func StreamDepositBytes(seqNumber uint64, streamGasLimit uint64, Stream eth.BlockInfo) ([]byte, error) {
-	dep, err := StreamDeposit(seqNumber, streamGasLimit, Stream)
+func StreamDepositBytes(rollupCfg *rollup.Config, l2BlockTime uint64, seqNumber uint64, streamGasLimit uint64, Stream eth.BlockInfo) ([]byte, error) {
+	dep, err := StreamDeposit(rollupCfg, l2BlockTime, seqNumber, streamGasLimit, Stream)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create L1 info tx: %w", err)
 	}
